@@ -51,17 +51,13 @@ feature 'restaurants' do
     end
   end
   context 'editing restaurant' do
+    let!(:user) { User.create(email: "Joe@joe.com", password: "testtest", password_confirmation: "testtest")}
+    let!(:restaurant) { user.restaurants.create(name: 'KFC')}
+
     before do
-      visit('/')
-      click_link('Sign up')
-      fill_in('Email', with: 'test@example.com')
-      fill_in('Password', with: 'testtest')
-      fill_in('Password confirmation', with: 'testtest')
-      click_button('Sign up')
+      login_as(user)
     end
-
-    let!(:kfc){ Restaurant.create(name:'KFC') }
-
+    
     scenario 'let a user that created the restaurant, edit that restaurant' do
       visit '/restaurants'
       click_link 'Edit KFC'
@@ -73,15 +69,12 @@ feature 'restaurants' do
   end
 
   context 'deleting restaurants' do
+    let!(:user) { User.create(email: "Joe@joe.com", password: "testtest", password_confirmation: "testtest")}
+    let!(:restaurant) { user.restaurants.create(name: 'KFC')}
+
     before do
-      visit('/')
-      click_link('Sign up')
-      fill_in('Email', with: 'test@example.com')
-      fill_in('Password', with: 'testtest')
-      fill_in('Password confirmation', with: 'testtest')
-      click_button('Sign up')
+      login_as(user)
     end
-    before {Restaurant.create name: 'KFC'}
 
     scenario 'removes a restaurant when a user clicks a delete link' do
       visit '/restaurants'
@@ -90,6 +83,7 @@ feature 'restaurants' do
       expect(page).to have_content 'Restaurant deleted successfully'
     end
   end
+
   context 'an invalid restaurant' do
     before do
       visit('/')

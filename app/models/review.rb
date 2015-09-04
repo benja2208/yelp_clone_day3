@@ -1,4 +1,5 @@
 class Review < ActiveRecord::Base
+	include AsUserAssociationExtention
   belongs_to :user
   belongs_to :restaurant
   

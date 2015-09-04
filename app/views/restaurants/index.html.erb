@@ -8,6 +8,7 @@
           <% restaurant.reviews.each do |review| %>
             <li>
             <%= review.thoughts %>, <strong><%= review.rating %></strong>
+            <h3><%= link_to "Delete Review #{review.thoughts}", restaurant_review_path(restaurant, review), method: :delete %></h3>
             </li>
           <% end %>
       </ul>
