@@ -114,6 +114,7 @@ feature 'restaurants' do
       expect(restaurant).to have(1).error_on(:name)
     end
   end
+  
   context 'user not signed in' do
     it 'must be signed to add a restaurant' do
       visit('/')

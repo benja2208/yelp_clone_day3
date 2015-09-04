@@ -30,7 +30,4 @@ class User < ActiveRecord::Base
   #   reviewed_restaurants.include? restaurant
   # end 
 
-  def is_creator?(restaurant)
-    restaurant.user == @current_user ? true : false
-  end
 end
