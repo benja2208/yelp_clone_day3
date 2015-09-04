@@ -6,12 +6,12 @@ class RestaurantsController < ApplicationController
   end
 
   def new
-    @user = User.find(current_user.id)
+    # @user = User.find(current_user.id)
     @restaurant = Restaurant.new
   end
 
   def create
-    @user = User.find(current_user.id)
+    # @user = User.find(current_user.id)
     @restaurant = Restaurant.create(restaurant_params)
     if @restaurant.save
       redirect_to restaurants_path
