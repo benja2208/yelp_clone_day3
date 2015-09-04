@@ -12,7 +12,7 @@ class RestaurantsController < ApplicationController
 
   def create
     # @user = User.find(current_user.id)
-    @restaurant = Restaurant.create(restaurant_params)
+    @restaurant = current_user.restaurants.create(restaurant_params)
     if @restaurant.save
       redirect_to restaurants_path
     else
@@ -29,7 +29,11 @@ class RestaurantsController < ApplicationController
   end
 
   def edit
-      @restaurant = Restaurant.find(params[:id]) 
+    @restaurant = Restaurant.find(params[:id]) 
+    unless @restaurant.created_by?(current_user)
+      flash[:notice] = 'Error! You must be the creator to edit this entry!'
+      redirect_to restaurants_path
+    end 
   end
 
   def update
@@ -41,11 +45,11 @@ class RestaurantsController < ApplicationController
 
   def destroy
     @restaurant = Restaurant.find(params[:id])
-    @restaurant.destroy
-    flash[:notice] = "Restaurant deleted successfully"
-
+    if @restaurant.destroy_as_user(current_user)
+      flash[:notice] = 'Restaurant deleted successfully'
+    else
+      flash[:notice] = 'Error! You must be the creator to delete this entry.'
+    end 
     redirect_to restaurants_path
   end
-
-
 end
